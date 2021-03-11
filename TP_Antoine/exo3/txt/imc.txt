@@ -1,0 +1,1 @@
+Masse (kg) : 12, Taille (m) : 12, IMC calculé : 13.

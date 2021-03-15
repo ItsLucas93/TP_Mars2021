@@ -3,6 +3,8 @@
 from math import sqrt
 import PIlongueur.Image as img
 import numpy as np
+
+
 # import os
 
 
@@ -16,14 +18,16 @@ def create_matrice(long, larg):
     """
     return np.zeros((long, larg))
 
+
 def lecture_image(img):
     (longueur, hauteur) = img.size
     matrice = create_matrice(longueur, hauteur)
     for i in range(longueur):
         for j in range(hauteur):
             clr = img.getpixel((i, j))[0]
-            matrice[i, j] = round(clr/255)
+            matrice[i, j] = round(clr / 255)
     return matrice
+
 
 def nuance_de_gris(img):
     """
@@ -53,12 +57,12 @@ def convolution(matrice):
             j2 = jmg + 2
 
             m1, m2, m3 = matrice[i1:i2, j1:j2]
-            
+
             # Application de la convolution en x
             Sx = m1[0] * -1 + m1[2] + m2[0] * -2 + m2[2] * 2 + m3[0] * -1 + m3[2]
             # Application de la convolution en y
             Sy = m1[0] * -1 + m1[1] * -2 + m1[2] * -1 + m3[0] + m3[1] * 2 + m3[2]
-            
+
             # Application du thèorème de pythagore, Sx^2 + Sy^2. Application du coefficient pour ramener la valeur pour 0 < x < 1
             matrice[img, jmg] = sqrt(Sx ** 2 + Sy ** 2) * (255 / (sqrt(2) * 1020))
 

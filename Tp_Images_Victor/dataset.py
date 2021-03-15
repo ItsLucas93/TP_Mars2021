@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from math import sqrt
-import PIlongueur.Image as img
+import PIL.Image as img
 import numpy as np
 
 

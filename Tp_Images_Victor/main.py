@@ -12,11 +12,11 @@ import numpy as np
 #           Partie 1 
 # -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
-def create_matrice(long, larg):
+def create_matrice(L, l):
     """
     Création de matrice vide.
     """
-    return np.zeros((long, larg))
+    return np.zeros((L, l))
 
 
 def lecture_image(img):
@@ -45,16 +45,14 @@ def nuance_de_gris(img):
 
 def convolution(matrice):
     """
-    Filtre de Sobel
+    Filtre de Sobel : https://fr.wikipedia.org/wiki/Filtre_de_Sobel
     x = [-1, 0, 1], [-2, 0, 2], [-1, 0, 1]
     y = [-1, -2, -1], [0, 0, 0], [1, 2, 1]
     """
     for img in range(1, matrice.shape[0] - 1):
-        i1 = img - 1
-        i2 = img + 2
-        for jmg in range(1, matrice.shape[1] - 1):
-            j1 = jmg - 1
-            j2 = jmg + 2
+        i1 = img - 1 ; i2 = img + 2
+        for jmg in range(1, matrice.shape[1] - 1 ):
+            j1 = jmg - 1 ; j2 = jmg + 2
 
             m1, m2, m3 = matrice[i1:i2, j1:j2]
 
@@ -68,3 +66,46 @@ def convolution(matrice):
 
     return matrice
 
+def parcours_L(debutA, finA, step, debutB, finB, matrice):
+    """
+    Parcours en Longueur de la matrice
+    """
+    endpoint = False
+    for i in range(debutA, finA, step):
+        for j in range(debutB, finB):
+            if matrice[i, j] == 1:
+                borne = i
+                endpoint = True
+                break
+        if endpoint == True:
+            break
+    return borne
+
+
+def parcours_l(debutA, finA, step, debutB, finB, matrice):
+    """
+    Parcours en largeur de la matrice
+    """
+    endpoint = False
+    for j in range(debutA, finA, step):
+        for i in range(debutB, finB):
+            if matrice[i, j] == 1:
+                borne = j
+                endpoint = True
+                break
+        if endpoint == True:
+            break
+    return borne
+
+
+def matrice_rognee(matrice, marge):
+    """ 
+    Matrice rognée
+    """
+    L = matrice.shape[0]
+    l = matrice.shape[1]
+    borne_y1 = parcours_L(marge, L - marge, 1, marge, l - marge, matrice)
+    borne_y2 = parcours_L(L - marge, marge, -1, marge, l - marge, matrice)
+    borne_x1 = parcours_l(marge, l - marge, 1, marge, L - marge, matrice)
+    borne_x2 = parcours_l(l - marge, marge, -1, marge, L - marge, matrice)
+    return matrice[borne_y1:borne_y2 + 1, borne_x1:borne_x2 + 1]

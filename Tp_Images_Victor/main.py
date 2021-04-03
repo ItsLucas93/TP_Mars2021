@@ -4,7 +4,7 @@ from math import sqrt
 import PIL.Image as img
 import numpy as np
 import os
-import tqdm
+from tqdm import tqdm
 
 
 # -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
@@ -80,7 +80,7 @@ def parcours_L(debutA, finA, step, debutB, finB, matrice):
     Parcours en Longueur de la matrice
     """
     endpoint = False
-    for i in range(debutA, finA, step):
+    for i in tqdm(range(debutA, finA, step), colour='o'):
         for j in range(debutB, finB):
             if matrice[i, j] == 1:
                 borne = i
@@ -96,7 +96,7 @@ def parcours_l(debutA, finA, step, debutB, finB, matrice):
     Parcours en largeur de la matrice
     """
     endpoint = False
-    for j in range(debutA, finA, step):
+    for j in tqdm(range(debutA, finA, step), colour='g'):
         for i in range(debutB, finB):
             if matrice[i, j] == 1:
                 borne = j
@@ -210,7 +210,7 @@ if __name__ == '__main__':
 
     longueur, hauteur = sizes
 
-    for i in range(tqdm(len(l_images))):
+    for i in tqdm(range(len(l_images))):
         png = img.open(chemin + "/" + l_images[i])
         png = png.resize((longueur, hauteur))
         matrice = matrice_rognee(matrice_final(convolution(nuance_de_gris(png))), 40)
